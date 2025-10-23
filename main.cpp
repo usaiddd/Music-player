@@ -9,7 +9,7 @@ using namespace std;
 
 int main(){
     cout<<"enter keywords : ";
-    string mid,first="yt-dlp \"ytsearch1:",last=" \" --get-id >> new.txt",fin="";
+    string mid,first="yt-dlp \"ytsearch1:",last=" \" --get-id 1 >> new.txt",fin="";
     getline(cin,mid);
     fin=first+mid+last;
     system("cd ytdl");
@@ -24,10 +24,6 @@ int main(){
     getline(inFile, firstLine);
     inFile.close();
     ofstream outFile("new.txt", ios::trunc);
-    if (!outFile.is_open()) {
-        cerr << "Error: Could not open file 'new.txt' for clearing.\n";
-        return 1;
-    }
     outFile.close();
     cout<<firstLine;
     return 0;
