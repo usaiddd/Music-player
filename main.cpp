@@ -9,7 +9,7 @@ using namespace std;
 
 int main(){
     cout<<"enter keywords : ";
-    string mid,first=" yt-dlp \"ytsearch1:",last=" \" --get-id >> C:\\Users\\usaid\\OneDrive\\Desktop\\SOURCE\\PROJECTS\\Music_player\\new.txt",fin="";
+    string first="yt-dlp \"ytsearch1:", mid, last=" \" --get-id >> new.txt 2>/dev/null", fin="";
     getline(cin,mid);
     fin=first+mid+last;
     system("cd ytdl");
