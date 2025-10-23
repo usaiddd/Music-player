@@ -1,15 +1,15 @@
 //#include<nlohmann/json.hpp>
 #include<cstdlib>
-#include <iostream>
+#include<iostream>
 #include<fstream>
-#include <string>
+#include<string>
 
 //using json = nlohmann::json;
 using namespace std;
 
 int main(){
     cout<<"enter keywords : ";
-    string mid,first=" yt-dlp \"ytsearch1:",last=" \" --get-id >> C:\\Users\\usaid\\OneDrive\\Desktop\\SOURCE\\PROJECTS\\Music_player\\new.txt",fin="";
+    string mid,first="yt-dlp \"ytsearch1:",last=" \" --get-id >> new.txt",fin="";
     getline(cin,mid);
     fin=first+mid+last;
     system("cd ytdl");
