@@ -37,7 +37,7 @@ int main()
                            "\" --print \"{\\\"title\\\": \\\"%(title)s\\\", "
                            "\\\"uploader\\\": \\\"%(uploader)s\\\", "
                            "\\\"duration\\\": \\\"%(duration)s\\\"}\" > Info_files/temp.json" + errorHandler;
-    string commandtodownload = "yt-dlp -x --audio-quality 0 --audio-format mp3 -o \"audioloc/%(title)s.%(ext)s\" \"" + videoUrl + "\"" + errorHandler;
+    string commandtodownload = "yt-dlp -x --write-thumbnail --audio-quality 0 --audio-format mp3 -o \"audioloc/%(title)s.%(ext)s\" \"" + videoUrl + "\"" + errorHandler;
 
     cout << "Running command..." << endl;
     int result1 = system(commandtojson.c_str());
