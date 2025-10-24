@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
     cout << "enter keywords : ";
-    string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> new.txt", fin = "", errorHandler;
+    string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> buffer.txt", fin = "", errorHandler;
     #ifdef _WIN32
         errorHandler = " 2>nul";
     #else
@@ -23,10 +23,10 @@ int main()
 
     string firstLine;
     try {
-        ifstream inFile("new.txt");
+        ifstream inFile("buffer.txt");
         getline(inFile, firstLine);
         inFile.close();
-        ofstream outFile("new.txt", ios::trunc);
+        ofstream outFile("buffer.txt", ios::trunc);
         outFile.close();
     }
     catch(...){

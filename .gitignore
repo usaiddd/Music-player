@@ -1,1 +1,6 @@
 .DS_Store
+Header_Files/ytdl/ffmpeg.exe
+Header_Files/ytdl/ffplay.exe
+Header_Files/ytdl/ffprobe.exe
+.gitignore
+downloader.exe
