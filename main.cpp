@@ -1,9 +1,9 @@
-#include<nlohmann/json.hpp>
+#include "Header_Files/json.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include<iomanip>
+#include <iomanip>
 
 using json = nlohmann::json;
 using namespace std;
@@ -11,12 +11,18 @@ using namespace std;
 int main()
 {
     cout << "enter keywords : ";
-    string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> new.txt", fin = "";
+    string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> new.txt", fin = "", errorHandler;
+    #ifdef _WIN32
+        errorHandler = " 2>nul";
+    #else
+        errorHandler = " 2>/dev/null";
+    #endif
     getline(cin, mid);
-    fin = first + mid + last;
+    fin = first + mid + last + errorHandler;
     system(fin.c_str());
+
     string firstLine;
-    try{
+    try {
         ifstream inFile("new.txt");
         getline(inFile, firstLine);
         inFile.close();
@@ -26,12 +32,12 @@ int main()
     catch(...){
 
     }
-    string videoUrl="https://www.youtube.com/watch?v="+firstLine;
+    string videoUrl="https://www.youtube.com/watch?v=" + firstLine;
     string commandtojson = "yt-dlp \"" + videoUrl +
                            "\" --print \"{\\\"title\\\": \\\"%(title)s\\\", "
                            "\\\"uploader\\\": \\\"%(uploader)s\\\", "
-                           "\\\"duration\\\": \\\"%(duration)s\\\"}\" > Info_files\\temp.json";
-    string commandtodownload = "yt-dlp -x --audio-quality 0 --audio-format mp3 -o \"audioloc/%(title)s.%(ext)s\" \"" + videoUrl + "\"";
+                           "\\\"duration\\\": \\\"%(duration)s\\\"}\" > Info_files/temp.json" + errorHandler;
+    string commandtodownload = "yt-dlp -x --write-thumbnail --audio-quality 0 --audio-format mp3 -o \"audioloc/%(title)s.%(ext)s\" \"" + videoUrl + "\"" + errorHandler;
 
     cout << "Running command..." << endl;
     int result1 = system(commandtojson.c_str());
@@ -39,10 +45,8 @@ int main()
 
     if (result1 != 0 || result2 != 0)
     {
-        if (result1 != 0)
-            cerr << "JSON command failed!" << endl;
-        if (result2 != 0)
-            cerr << "DOWNLOAD command failed!" << endl;
+        if (result1 != 0) cerr << "JSON command failed!" << endl;
+        if (result2 != 0) cerr << "DOWNLOAD command failed!" << endl;
         return 1;
     }
 
@@ -59,7 +63,7 @@ int main()
 
     json allData;
     ifstream infoFile("Info_files/info.json");
-    if (infoFile.peek() != ifstream::traits_type::eof())
+    if (infoFile && infoFile.peek() != ifstream::traits_type::eof())
     {
         try
         {
@@ -74,8 +78,8 @@ int main()
     else
     {
         allData = json::array();
+        if (infoFile) infoFile.close();
     }
-    infoFile.close();
 
     allData.push_back(newEntry);
 
@@ -83,7 +87,7 @@ int main()
     jsonOutFile << setw(4) << allData << endl;
     jsonOutFile.close();
 
-    cout << "Commands run successfully and JSON appended!" << endl;
+    cout << endl << "Commands run successfully and JSON appended!" << endl;
     return 0;
     // ifstream file("prac.json");  // open file
     // if (!file.is_open()) {
