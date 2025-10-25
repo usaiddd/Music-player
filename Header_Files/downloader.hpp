@@ -1,4 +1,4 @@
-#include "Header_Files/json.hpp"
+#include "json.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -8,9 +8,16 @@
 using json = nlohmann::json;
 using namespace std;
 
-int main()
+#ifndef DOWNLOADER_HPP
+#define DOWNLOADER_HPP
+    int downloadSong();
+    //further declarations if needed
+
+#endif // DOWNLOADER_HPP
+
+int downloadSong()
 {
-    cout << "enter keywords : ";
+    cout << "Enter song title with artist name : ";
     string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> buffer.txt", fin = "", errorHandler;
     #ifdef _WIN32
         errorHandler = " 2>nul";
