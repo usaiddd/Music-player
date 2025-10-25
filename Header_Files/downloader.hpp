@@ -17,6 +17,8 @@ using namespace std;
 
 int downloadSong()
 {
+    cout << "enter keywords : ";
+    string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> buffer.txt", fin = "", errorHandler;
     cout << "Enter song title with artist name : ";
     string mid, first = "yt-dlp \"ytsearch1:", last = " \" --get-id 1 >> buffer.txt", fin = "", errorHandler;
     #ifdef _WIN32
