@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
-#include<fstream>
-#include<unordered_map>
+#include <fstream>
+#include <unordered_map>
 #include "json.hpp"
 
+// ...existing code...
 using namespace std;
 using json = nlohmann::json;
 
@@ -38,31 +39,33 @@ unordered_map<string,json> create_hashtable() {
 
     json data;
     try {
-        data = json::parse(info);
+        // read file into json (works for a top-level array or object)
+        info >> data;
     } catch (json::parse_error& e) {
         cerr << "Error parsing info.json: " << e.what() << endl;
         return songhash;
     }
 
-    // Check if the JSON contains the "songs" array
-    if (!data.contains("songs") || !data["songs"].is_array()) {
+    // Accept either: top-level array OR object with "songs": [...]
+    const json* songs_ptr = nullptr;
+    if (data.is_array()) {
+        songs_ptr = &data;
+    } else if (data.contains("songs") && data["songs"].is_array()) {
+        songs_ptr = &data["songs"];
+    } else {
         cerr << "JSON does not contain a valid 'songs' array." << endl;
         return songhash;
     }
 
     // Insert each song into the hash table
-    for (const auto& song : data["songs"]) {
+    for (const auto& song : *songs_ptr) {
+        if (!song.is_object() || !song.contains("title")) {
+            cerr << "Skipping entry without a title." << endl;
+            continue;
+        }
         string key = song.at("title").get<string>();
         songhash[key] = song;
         cout << "The song '" << key << "' has been added to the hash table." << endl;
-    }
-
-    cout << "\n--- Hash Table Contents ---\n" << endl;
-
-    // Print all songs once
-    for (const auto& pair : songhash) {
-        cout << "Key: " << pair.first << "\nValue: " << pair.second.dump(2) << endl;
-        cout << "--------------------" << endl;
     }
     return songhash;
 }
