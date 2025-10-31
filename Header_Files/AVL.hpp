@@ -21,9 +21,8 @@ struct Node {
 template <typename A>
 class AVL {
 private:
-    Node<A>* root;
-
 public:
+    Node<A>* root;
     AVL() {
         root = nullptr;
     }
@@ -81,7 +80,7 @@ public:
 
         if (var < temp->data)
             temp->left = addnode(temp->left, var);
-        else if (var > temp->data)
+        else if (var >= temp->data)
             temp->right = addnode(temp->right, var);
 
         UpdateHeight(temp);
@@ -89,9 +88,9 @@ public:
 
         if (balance > 1 && var < temp->left->data)
             return llrotate(temp);
-        if (balance > 1 && var > temp->left->data)
+        if (balance > 1 && var >= temp->left->data)
             return lrrotate(temp);
-        if (balance < -1 && var > temp->right->data)
+        if (balance < -1 && var >= temp->right->data)
             return rrrotate(temp);
         if (balance < -1 && var < temp->right->data)
             return rlrotate(temp);
@@ -105,7 +104,7 @@ public:
             root = addnode(root, v[i]);
     }
 
-    // ASCENDING
+    // ASCENDING TITLE
     void inorder(Node<A>* node) {
         if (!node) return;
         inorder(node->left);
@@ -116,6 +115,7 @@ public:
         inorder(root);
     }
 
+    //DESCENDING TITLE
     void inorderdescend(Node<A>* node) {
         if (!node) return;
         inorderdescend(node->right);
