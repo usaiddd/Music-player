@@ -44,7 +44,7 @@ int downloadSong()
                            "\" --print \"{\\\"title\\\": \\\"%(title)s\\\", "
                            "\\\"uploader\\\": \\\"%(uploader)s\\\", "
                            "\\\"duration\\\": \\\"%(duration)s\\\"}\" > Info_files/temp.json" + errorHandler;
-    string commandtodownload = "yt-dlp -x --write-thumbnail --audio-quality 0 --audio-format mp3 -o \"audioloc/%(title)s.%(ext)s\" \"" + videoUrl + "\"" + errorHandler;
+    string commandtodownload = "yt-dlp -x -q --write-thumbnail --audio-quality 0 --audio-format mp3 -o \"audioloc/%(title)s.%(ext)s\" \"" + videoUrl + "\"" + errorHandler;
 
     cout << "Running command..." << endl;
     int result1 = system(commandtojson.c_str());
@@ -56,6 +56,9 @@ int downloadSong()
         if (result2 != 0) cerr << "DOWNLOAD command failed!" << endl;
         return 1;
     }
+    else{
+        cout<<"Downloaded Successfully ✅";
+    }
 
     ifstream tempFile("Info_files/temp.json");
     if (!tempFile)
@@ -65,7 +68,6 @@ int downloadSong()
     }
     json newEntry;
     tempFile >> newEntry;
-    cout<< "Adding new download "<< newEntry;
     tempFile.close();
 
     json allData;
@@ -96,12 +98,4 @@ int downloadSong()
 
     cout << endl << "Commands run successfully and JSON appended!" << endl;
     return 0;
-    // ifstream file("prac.json");  // open file
-    // if (!file.is_open()) {
-    //     cerr << "Could not open file!" << endl;
-    //     return 1;
-    // }
-    // json j;
-    // file >> j;
-    // cout<< j[1][1];
 }

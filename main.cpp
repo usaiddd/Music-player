@@ -4,24 +4,9 @@
 #include "Header_Files/downloader.hpp"
 #include "Header_Files/preprocessing.hpp"
 #include "Header_Files/json.hpp"
-#include "Header_Files/AVL.hpp"
 
-void inorderdur(Node<int>* temp, unordered_map<int, vector<string>> &arr, vector<string> &arr2){ 
-    if (!temp) return;
-    inorderdur(temp->left, arr, arr2);
-    for (string i: arr[temp->data])
-        arr2.push_back(i);
-    inorderdur(temp->right, arr, arr2);
-}
-
-void inorderdurdes(Node<int>* temp, unordered_map<int, vector<string>> &arr, vector<string> &arr2){ 
-    if (!temp) return;
-    inorderdurdes(temp->right, arr, arr2);
-    for (string i: arr[temp->data])
-        arr2.push_back(i);
-    inorderdurdes(temp->left, arr, arr2);
-}
 int main(){
+    downloadSong();
     vector <string> titles; 
     unordered_map<string, json> song_table = create_hashtable_title();
     for (const auto& pair : song_table) {
@@ -30,7 +15,7 @@ int main(){
     cout << "\n\n";
     vector<int> durations; 
     vector<string> durationtitles; 
-    unordered_map<int, vector<string>> duration_table = create_hashtable_duration(); //UNSORTED
+    unordered_map<int, vector<string>> duration_table = create_hashtable_duration();
     for (const auto& pair : duration_table) {
         durations.push_back(pair.first);
     }
